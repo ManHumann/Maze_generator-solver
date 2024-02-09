@@ -1,9 +1,8 @@
 #The program will be divided into two parts ,1 will be maze generating and the next will be maze solving
 
 import random
-len_y=0
-len_x=0
-walls=[]
+import turtle
+
 #adding all the element in the list
 def list_sum(input):
     ans=0
@@ -14,86 +13,116 @@ def list_sum(input):
 #used to generate the walls of maze
 
 def maze_wall_generate(len_x,len_y):
-    walls=[]
-    for a in range(len_x):
-        row=[]
-        for b in range(len_y):
-            cell=[1,1,1,1]
-            row.append[cell]
-    walls.append(row)
+    Walls=[[[1,1,1,1] for a in range(len_x)] for b in range(len_y)]
     x=0
     y=0
     total_visited=0
-    current_node=[x,y]
-    visited=[[[0 for a in range(len_x)] for b in range(len_y)]]
-    #for a in range(len_x):
-   # row=[]                              #first initilize every block of list as unvisited or 0
-   # for b in range(len_y):
-   #     row.append(0)
-   # current_node.append(row)
-
+    currentnode=[x,y]
+    visited=[[0 for a in range(len_x)] for b in range(len_y)]
     visited[x][y]=1
     visited_node_n=[[x,y]]
     n=0
-    while(total_visited!=(len_x*len_y)):
-    
+    while total_visited!=(len_x*len_y):#check to see if finished
         options=[0,0,0,0]
-        if (x!=0 and visited[y][x-1]==0):
-            options[0]=1                        #wall in the left can be removed
+        if x!=0:
+            if visited[y][x-1]==0:
+                options[0]=1
+                #wall can be removed on the left
+        if y!=len_y-1:
+            if visited[y+1][x]==0:
+                options[1]=1
+                #wall can be removed above
+        if x!=len_x-1:
+            if visited[y][x+1]==0:
+                options[2]=1
+                #wall can be removed on the right
+        if y!=0:
+            if visited[y-1][x]==0:
+                options[3]=1
+                #wall can be removed below
         
-        elif (x!=len_x - 1 and visited[y][x+1]==0):
-            options[2]=1                        #wall in the right can be removed
-        
-        elif (y!=0 and visited[y-1][x]==0):
-            options[1]=1                        #wall in the top can be removed                                 #Can generate error in the future
-        
-        elif (y!=len_y-1 and visited[y+1][x]==0):                                                                 #Can generate erroe in the future
-            options[3]=1                         #wall in the bottom can be removed                              #Can generate error in the future
-        
-        elif options==[0,0,0,0]:
-            current_node=visited_node_n[n-1]
-            x=current_node[0]
-            y=current_node[1]                      #moves back to the previous node
+        if options==[0,0,0,0]:
+            currentnode=visited_node_n[n-1]
+            x=currentnode[0]
+            y=currentnode[1]
             n=n-1
+            #moves back to previous square/node
+
         
         else:
-            nodefound=False
-            while nodefound==False:
-                random_int=random.randint(0,3)
-                
-                if options[random_int]==1:
-                    
-                     if random_int==0:
-                       opposite_node=[current_node[0]-1,current_node[1]]            #moves to the cell left of current node
-                       walls[current_node[1],current_node[0]][0]=0                  #deletes the left wall of current node
-                       walls[opposite_node[1],current_node[0]][2]=0                 #deletes the right wall of the oppossite node
+         nodefound=False
+         while nodefound==False:
+                randomint=random.randint(0,3)
+                if options[randomint]==1:
+                    if randomint==0:
+                        oppisitenode=[currentnode[0]-1,currentnode[1]]#moves into cell on the left
+                        Walls[currentnode[1]][currentnode[0]][0]=0#removing wall left
+                        Walls[oppisitenode[1]][oppisitenode[0]][2]=0
+                    elif randomint==1:
+                        oppisitenode=[currentnode[0],currentnode[1]+1]#moves into cell above
+                        Walls[currentnode[1]][currentnode[0]][1]=0#removing wall above
+                        Walls[oppisitenode[1]][oppisitenode[0]][3]=0
+                    elif randomint==2:
+                        oppisitenode=[currentnode[0]+1,currentnode[1]]#moves into cell on the right
+                        Walls[currentnode[1]][currentnode[0]][2]=0#removing wall right
+                        Walls[oppisitenode[1]][oppisitenode[0]][0]=0
+                    else:
+                        oppisitenode=[currentnode[0],currentnode[1]-1]#moves into cell below
+                        Walls[currentnode[1]][currentnode[0]][3]=0#removing wall below
+                        Walls[oppisitenode[1]][oppisitenode[0]][1]=0
+                    n=n+1
+                    visited_node_n.insert(n,oppisitenode)					
+                    currentnode=oppisitenode					
+                    visited[currentnode[1]][currentnode[0]]=1			
+                    x=currentnode[0]							
+                    y=currentnode[1]							
+                    nodefound=True
+        total_visited=list_sum(visited)
+    return(Walls)
 
-                     elif random_int==1:
-                         opposite_node=[current_node[0],current_node[1]-1]          #moves to the node above
-                         walls[current_node[1],current_node[0]][1]=0                #removes the top wall of the current node
-                         walls[opposite_node[1],opposite_node[0]][3]=0              #removes the bottom part of the current node
-
-                     elif random_int==2:
-                         opposite_node=[current_node[0]+1,current_node[1]]
-                         walls[current_node[1],current_node[0]][2]=0
-                         walls[opposite_node[1],opposite_node[0]][0]=0
-
-                     else :
-                            random_int==3
-                            opposite_node=[current_node[0],current_node[1]+1]
-                            walls[current_node[1],current_node[0]][3]=0
-                            walls[opposite_node[1],opposite_node[0]][1]=0
-                n=n+1
-                visited_node_n.insert(n,opposite_node)
-                current_node=opposite_node
-                visited[current_node[1]][current_node[0]]=1
-                x=current_node[0]
-                y=current_node[1]
-                nodefound=True
-            total_visited=list_sum(visited)
-    return(walls)          
+         
                     
-                    
+def printmaze(sizex,sizey,Walls):
+    startx=-380
+    starty=-startx
+    gridsize=(2*(-startx))/sizex
+    turtle.clear()
+    turtle.speed(0.005)
+    turtle.penup()
+    turtle.goto(startx,starty)
+    turtle.pendown()
+    turtle.goto(-startx,starty)
+    turtle.goto(-startx,-starty)
+    turtle.setheading(0)
+    for y in range(sizex):
+        turtle.penup()
+        turtle.goto(startx,-starty+gridsize*(y))
+        for x in range(sizey):
+            if Walls[y][x][3]==1:
+                turtle.pendown()
+            else:
+                turtle.penup()
+            turtle.forward(gridsize)
+    turtle.left(90)
+    for x in range(sizex):
+        turtle.penup()
+        turtle.goto(startx+gridsize*(x),-starty)
+        for y in range(sizey):
+            if Walls[y][x][0]==1:
+                turtle.pendown()
+            else:
+                turtle.penup()
+            turtle.forward(gridsize)
+
+
+#Main Program
+sizex=10
+sizey=10
+Walls=maze_wall_generate(sizex,sizey)
+print(Walls)
+printmaze(sizex,sizey,Walls)
+
+                   
                     
                    
                         
