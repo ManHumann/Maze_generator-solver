@@ -115,12 +115,35 @@ def printmaze(sizex,sizey,Walls):
             turtle.forward(gridsize)
 
 
-#Main Program
-sizex=10
-sizey=10
-Walls=maze_wall_generate(sizex,sizey)
-print(Walls)
-printmaze(sizex,sizey,Walls)
+#"This will be the begining of the code solving portion on the program using dijkstra algorithm####"      
+                    
+def opposite_node(f,currentnode):
+    if f==0:
+        opposite_node=[currentnode[0]-1,currentnode[1]]
+    if f==1:
+        opposite_node=[currentnode[0],currentnode[1]+1]
+    if f==2:
+        opposite_node=[currentnode[0]+1,currentnode[1]]
+    else:
+        opposite_node=[currentnode[0],currentnode[1]-1]
+    return(opposite_node)
+    
+def search(Walls,len_y,len_x):
+    visited=[[0 for a in range(len_x)] for b in range(len_y)]
+    visited[0][0]=1                     #we assume the first node is alrady visited
+    node_stack=[[0,0]]
+    assumption=True
+    while assumption==True:
+        assumption=False
+        for a in range(len(node_stack)):        #gets the no. of nodes in the list
+            currentnode=node_stack[0]
+            for b in range(4):                  #check in all the four direction around the current node for possible path
+                if Walls[currentnode[1]][currentnode[0]][b]==0:         #checks if any of the four sides have walls in between or not
+                    node_2_shift=opposite_node(b,currentnode)
+                    if visited[node_2_shift[1]][node_2_shift[0]]==0:    #checks if the node next in line has been previously visited or not
+                        visited[node_2_shift[1]][node_2_shift[0]]=visited[currentnode[1]][currentnode[0]]+1
+                        node_stack.append(node_2_shift)                 #adds the new node to the stack of nodes
+                       
 
                    
                     
