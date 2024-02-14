@@ -113,6 +113,7 @@ def printmaze(sizex,sizey,Walls):
             else:
                 turtle.penup()
             turtle.forward(gridsize)
+    turtle.mainloop()
 
 
 #"This will be the begining of the code solving portion on the program using dijkstra algorithm####"      
@@ -137,16 +138,46 @@ def search(Walls,len_y,len_x):
         assumption=False
         for a in range(len(node_stack)):        #gets the no. of nodes in the list
             currentnode=node_stack[0]
+            print("Checked")
             for b in range(4):                  #check in all the four direction around the current node for possible path
                 if Walls[currentnode[1]][currentnode[0]][b]==0:         #checks if any of the four sides have walls in between or not
                     node_2_shift=opposite_node(b,currentnode)
                     if visited[node_2_shift[1]][node_2_shift[0]]==0:    #checks if the node next in line has been previously visited or not
                         visited[node_2_shift[1]][node_2_shift[0]]=visited[currentnode[1]][currentnode[0]]+1
                         node_stack.append(node_2_shift)                 #adds the new node to the stack of nodes
-                       
+                        assumption=True
+            node_stack.remove(currentnode)                                 #removes the previously added node because it has already been searched
+    return(visited)
 
-                   
-                    
-                   
-                        
-                       
+def pathfinder(visited,len_x,len_y,Walls):
+    dis=visited[len_x-1][len_y-1]
+    path_followed=[[len_x-1][len_y-1]]                                       #sets the end point of the maze
+    while path_followed[0]!=[0,0]:
+        if Walls[path_followed[0][1]][path_followed[0][0]][0]==0:              #checks if there is no wall to the left of the current position
+            if visited[path_followed[0][1]][path_followed[0][0]-1]==dis-1:     #If there is no wall checks if the adjacent cell to the left has a distance 1 less than the current distance
+                path_followed.insert(0,[path_followed[0][0]-1,path_followed[0][1]])
+                dis=dis-1
+        if Walls[path_followed[0][1]][path_followed[0][0]][1]==0:
+            if visited[path_followed[0][1]+1][path_followed[0][0]][1]==dis-1:
+                path_followed.insert(0,[path_followed[0][0],path_followed[0][1]+1])
+                dis=dis-1
+        if Walls[path_followed[0][1]][path_followed[0][0]][2]==0:
+            if visited[path_followed[0][1]][path_followed[0][0]+1][2]==dis-1:
+                path_followed.insert(0,[path_followed[0][0]+1,path_followed[0][1]])
+                dis=dis-1
+        if Walls[path_followed[0][1][path_followed[0][1]]][3]==0:
+            if visited[path_followed[0][1]+1][path_followed[0][0]]:
+                path_followed.insert(0,[path_followed[0][1]+1][path_followed[0][0]])
+                dis=dis-1
+    return(path_followed)
+
+
+len_x=5
+len_y=5
+pos_x=-380
+pos_y=pos_x
+Wall=maze_wall_generate(len_x,len_y)
+printmaze(len_x,len_y,Wall)
+visited=search(Wall,len_y,len_x)
+path_followed=pathfinder(visited,len_x,len_y,Wall)
+
