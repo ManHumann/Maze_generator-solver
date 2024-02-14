@@ -47,35 +47,33 @@ def maze_wall_generate(len_x,len_y):
             y=currentnode[1]
             n=n-1
             #moves back to previous square/node
-
-        
         else:
-         nodefound=False
-         while nodefound==False:
+            nodefound=False
+            while nodefound==False:
                 randomint=random.randint(0,3)
                 if options[randomint]==1:
                     if randomint==0:
-                        oppisitenode=[currentnode[0]-1,currentnode[1]]#moves into cell on the left
+                        opposite_node=[currentnode[0]-1,currentnode[1]]#moves into cell on the left
                         Walls[currentnode[1]][currentnode[0]][0]=0#removing wall left
-                        Walls[oppisitenode[1]][oppisitenode[0]][2]=0
+                        Walls[opposite_node[1]][opposite_node[0]][2]=0
                     elif randomint==1:
-                        oppisitenode=[currentnode[0],currentnode[1]+1]#moves into cell above
+                        opposite_node=[currentnode[0],currentnode[1]+1]#moves into cell above
                         Walls[currentnode[1]][currentnode[0]][1]=0#removing wall above
-                        Walls[oppisitenode[1]][oppisitenode[0]][3]=0
+                        Walls[opposite_node[1]][opposite_node[0]][3]=0
                     elif randomint==2:
-                        oppisitenode=[currentnode[0]+1,currentnode[1]]#moves into cell on the right
+                        opposite_node=[currentnode[0]+1,currentnode[1]]#moves into cell on the right
                         Walls[currentnode[1]][currentnode[0]][2]=0#removing wall right
-                        Walls[oppisitenode[1]][oppisitenode[0]][0]=0
+                        Walls[opposite_node[1]][opposite_node[0]][0]=0
                     else:
-                        oppisitenode=[currentnode[0],currentnode[1]-1]#moves into cell below
+                        opposite_node=[currentnode[0],currentnode[1]-1]#moves into cell below
                         Walls[currentnode[1]][currentnode[0]][3]=0#removing wall below
-                        Walls[oppisitenode[1]][oppisitenode[0]][1]=0
+                        Walls[opposite_node[1]][opposite_node[0]][1]=0
                     n=n+1
-                    visited_node_n.insert(n,oppisitenode)					
-                    currentnode=oppisitenode					
-                    visited[currentnode[1]][currentnode[0]]=1			
-                    x=currentnode[0]							
-                    y=currentnode[1]							
+                    visited_node_n.insert(n,opposite_node)
+                    currentnode=opposite_node
+                    visited[currentnode[1]][currentnode[0]]=1
+                    x=currentnode[0]
+                    y=currentnode[1]
                     nodefound=True
         total_visited=list_sum(visited)
     return(Walls)
@@ -132,7 +130,7 @@ def opposite_node(f,currentnode):
     else:
         opposite_node=[currentnode[0],currentnode[1]-1]
     return(opposite_node)
-    
+  
 def search(Walls,len_x,len_y):
     visited=[[0 for a in range(len_x)] for b in range(len_y)]
     visited[0][0]=1                     #we assume the first node is alrady visited
@@ -142,12 +140,9 @@ def search(Walls,len_x,len_y):
         assumption=False
         for a in range(len(node_stack)):        #gets the no. of nodes in the list
             currentnode=node_stack[0]
-            print("Checked")
-            print("Current Node:", currentnode)
             for b in range(4):                  #check in all the four direction around the current node for possible path
                 if Walls[currentnode[1]][currentnode[0]][b]==0:         #checks if any of the four sides have walls in between or not
                     node_2_shift=opposite_node(b,currentnode)
-                    print(node_2_shift)
                     if visited[node_2_shift[1]][node_2_shift[0]]==0:    #checks if the node next in line has been previously visited or not
                         visited[node_2_shift[1]][node_2_shift[0]]=visited[currentnode[1]][currentnode[0]]+1
                         node_stack.append(node_2_shift)                 #adds the new node to the stack of nodes
@@ -198,9 +193,9 @@ len_y=5
 pos_x=-350
 pos_y=pos_x
 maze_size=(2*-(pos_y))/len_y
-Wall=maze_wall_generate(len_x,len_y)
-printmaze(len_x,len_y,Wall)
-visited=search(Wall,len_x,len_y)
-path_followed=pathfinder(visited,len_x,len_y,Wall)
+Walls=maze_wall_generate(len_x,len_y)
+printmaze(len_x,len_y,Walls)
+visited=search(Walls,len_x,len_y)
+path_followed=pathfinder(visited,len_x,len_y,Walls)
 print_path(path_followed,pos_x,pos_y,maze_size)
 
