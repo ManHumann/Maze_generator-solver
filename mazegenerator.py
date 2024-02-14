@@ -83,11 +83,15 @@ def maze_wall_generate(len_x,len_y):
          
                     
 def printmaze(sizex,sizey,Walls):
-    startx=-380
+    startx=-350
     starty=-startx
     gridsize=(2*(-startx))/sizex
     turtle.clear()
-    turtle.speed(0.005)
+    turtle.pensize(5)
+    turtle.pencolor("white")
+    screen = turtle.Screen()
+    screen.bgcolor("black")
+    turtle.speed(10)
     turtle.penup()
     turtle.goto(startx,starty)
     turtle.pendown()
@@ -171,13 +175,30 @@ def pathfinder(visited,len_x,len_y,Walls):
                 dis=dis-1
     return(path_followed)
 
+def print_path(path_followed,startx,starty,gridsize):
+    turtle.speed(3)
+    turtle.penup()
+    x=startx+gridsize/2
+    y=starty+gridsize/2
+    turtle.goto(x,y)
+    turtle.pendown()
+    turtle.pensize(10)
+    turtle.color("pink")
+    for a in range(len(path_followed)-1):
+        x=x+(path_followed[a+1][0]-path_followed[a][0])*gridsize
+        y=y+(path_followed[a+1][1]-path_followed[a][1])*gridsize
+        turtle.goto(x,y)
+    turtle.mainloop()
+
 
 len_x=5
 len_y=5
-pos_x=-380
+pos_x=-350
 pos_y=pos_x
+maze_size=(2*-(pos_y))/len_y
 Wall=maze_wall_generate(len_x,len_y)
 printmaze(len_x,len_y,Wall)
 visited=search(Wall,len_y,len_x)
 path_followed=pathfinder(visited,len_x,len_y,Wall)
+print_path(path_followed,len_x,len_y,maze_size)
 
