@@ -133,7 +133,7 @@ def opposite_node(f,currentnode):
         opposite_node=[currentnode[0],currentnode[1]-1]
     return(opposite_node)
     
-def search(Walls,len_y,len_x):
+def search(Walls,len_x,len_y):
     visited=[[0 for a in range(len_x)] for b in range(len_y)]
     visited[0][0]=1                     #we assume the first node is alrady visited
     node_stack=[[0,0]]
@@ -143,9 +143,11 @@ def search(Walls,len_y,len_x):
         for a in range(len(node_stack)):        #gets the no. of nodes in the list
             currentnode=node_stack[0]
             print("Checked")
+            print("Current Node:", currentnode)
             for b in range(4):                  #check in all the four direction around the current node for possible path
                 if Walls[currentnode[1]][currentnode[0]][b]==0:         #checks if any of the four sides have walls in between or not
                     node_2_shift=opposite_node(b,currentnode)
+                    print(node_2_shift)
                     if visited[node_2_shift[1]][node_2_shift[0]]==0:    #checks if the node next in line has been previously visited or not
                         visited[node_2_shift[1]][node_2_shift[0]]=visited[currentnode[1]][currentnode[0]]+1
                         node_stack.append(node_2_shift)                 #adds the new node to the stack of nodes
@@ -155,23 +157,23 @@ def search(Walls,len_y,len_x):
 
 def pathfinder(visited,len_x,len_y,Walls):
     dis=visited[len_x-1][len_y-1]
-    path_followed=[[len_x-1][len_y-1]]                                       #sets the end point of the maze
+    path_followed=[[len_x-1,len_y-1]]                                       #sets the end point of the maze
     while path_followed[0]!=[0,0]:
         if Walls[path_followed[0][1]][path_followed[0][0]][0]==0:              #checks if there is no wall to the left of the current position
             if visited[path_followed[0][1]][path_followed[0][0]-1]==dis-1:     #If there is no wall checks if the adjacent cell to the left has a distance 1 less than the current distance
                 path_followed.insert(0,[path_followed[0][0]-1,path_followed[0][1]])
                 dis=dis-1
         if Walls[path_followed[0][1]][path_followed[0][0]][1]==0:
-            if visited[path_followed[0][1]+1][path_followed[0][0]][1]==dis-1:
+            if visited[path_followed[0][1]+1][path_followed[0][0]]==dis-1:
                 path_followed.insert(0,[path_followed[0][0],path_followed[0][1]+1])
                 dis=dis-1
         if Walls[path_followed[0][1]][path_followed[0][0]][2]==0:
-            if visited[path_followed[0][1]][path_followed[0][0]+1][2]==dis-1:
+            if visited[path_followed[0][1]][path_followed[0][0]+1]==dis-1:
                 path_followed.insert(0,[path_followed[0][0]+1,path_followed[0][1]])
                 dis=dis-1
-        if Walls[path_followed[0][1][path_followed[0][1]]][3]==0:
-            if visited[path_followed[0][1]+1][path_followed[0][0]]:
-                path_followed.insert(0,[path_followed[0][1]+1][path_followed[0][0]])
+        if Walls[path_followed[0][1]][path_followed[0][0]][3]==0:
+            if visited[path_followed[0][1]-1][path_followed[0][0]]==dis-1:
+                path_followed.insert(0,[path_followed[0][0],path_followed[0][1]-1])
                 dis=dis-1
     return(path_followed)
 
@@ -198,7 +200,7 @@ pos_y=pos_x
 maze_size=(2*-(pos_y))/len_y
 Wall=maze_wall_generate(len_x,len_y)
 printmaze(len_x,len_y,Wall)
-visited=search(Wall,len_y,len_x)
+visited=search(Wall,len_x,len_y)
 path_followed=pathfinder(visited,len_x,len_y,Wall)
-print_path(path_followed,len_x,len_y,maze_size)
+print_path(path_followed,pos_x,pos_y,maze_size)
 
