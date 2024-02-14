@@ -14,8 +14,6 @@ as the remaining 25% will include printing the path and debudding any error that
 
 
 The working of the entire program is as follows"
-Certainly! Let's break down the code into its main components, explaining the algorithm used and the data structures employed.
-
 Maze Generation:
 
 Algorithm:
