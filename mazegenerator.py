@@ -12,6 +12,7 @@ def list_sum(input):
 
 #used to generate the walls of maze
 
+
 def maze_wall_generate(len_x,len_y):
     Walls=[[[1,1,1,1] for a in range(len_x)] for b in range(len_y)]
     x=0
@@ -115,17 +116,13 @@ def printmaze(sizex,sizey,Walls):
             else:
                 turtle.penup()
             turtle.forward(gridsize)
-    turtle.mainloop()
-
-
-#"This will be the begining of the code solving portion on the program using dijkstra algorithm####"      
                     
 def opposite_node(f,currentnode):
     if f==0:
         opposite_node=[currentnode[0]-1,currentnode[1]]
-    if f==1:
+    elif f==1:
         opposite_node=[currentnode[0],currentnode[1]+1]
-    if f==2:
+    elif f==2:
         opposite_node=[currentnode[0]+1,currentnode[1]]
     else:
         opposite_node=[currentnode[0],currentnode[1]-1]
@@ -173,7 +170,7 @@ def pathfinder(visited,len_x,len_y,Walls):
     return(path_followed)
 
 def print_path(path_followed,startx,starty,gridsize):
-    turtle.speed(3)
+    turtle.speed(5)
     turtle.penup()
     x=startx+gridsize/2
     y=starty+gridsize/2
@@ -192,10 +189,15 @@ len_x=5
 len_y=5
 pos_x=-350
 pos_y=pos_x
-maze_size=(2*-(pos_y))/len_y
+maze_size=(2*(-pos_y))/len_y
 Walls=maze_wall_generate(len_x,len_y)
 printmaze(len_x,len_y,Walls)
 visited=search(Walls,len_x,len_y)
 path_followed=pathfinder(visited,len_x,len_y,Walls)
 print_path(path_followed,pos_x,pos_y,maze_size)
+
+
+
+
+
 
