@@ -10,8 +10,6 @@ Day 3 & 4:
 Day5:
 The back tracking algorithm was done,as it included checking the previous node ,and follwoing the way back,the onlu thing remaining is to print the final path of the maze,this also includes checking it the algorith works properly or not.This concludes the 75% progress of the project .
 
-as the remaining 25% will include printing the path and debudding any error that may come along the way.
-
 
 The working of the entire program is as follows"
 Maze Generation:
