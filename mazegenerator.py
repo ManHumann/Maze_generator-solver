@@ -116,6 +116,8 @@ def printmaze(sizex,sizey,Walls):
             else:
                 turtle.penup()
             turtle.forward(gridsize)
+
+    
                     
 def opposite_node(f,currentnode):
     if f==0:
@@ -149,7 +151,7 @@ def search(Walls,len_x,len_y):
 
 def pathfinder(visited,len_x,len_y,Walls):
     dis=visited[len_x-1][len_y-1]
-    path_followed=[[len_x-1,len_y-1]]                                       #sets the end point of the maze
+    path_followed=[[len_x-1,len_y-1]]                                       #sets the end point of the maze to top right
     while path_followed[0]!=[0,0]:
         if Walls[path_followed[0][1]][path_followed[0][0]][0]==0:              #checks if there is no wall to the left of the current position
             if visited[path_followed[0][1]][path_followed[0][0]-1]==dis-1:     #If there is no wall checks if the adjacent cell to the left has a distance 1 less than the current distance
@@ -172,6 +174,7 @@ def pathfinder(visited,len_x,len_y,Walls):
 def print_path(path_followed,startx,starty,gridsize):
     turtle.speed(5)
     turtle.penup()
+    turtle.delay(100)
     x=startx+gridsize/2
     y=starty+gridsize/2
     turtle.goto(x,y)
@@ -185,8 +188,8 @@ def print_path(path_followed,startx,starty,gridsize):
     turtle.mainloop()
 
 
-len_x=5
-len_y=5
+len_x=10
+len_y=10
 pos_x=-350
 pos_y=pos_x
 maze_size=(2*(-pos_y))/len_y
@@ -197,7 +200,7 @@ path_followed=pathfinder(visited,len_x,len_y,Walls)
 print_path(path_followed,pos_x,pos_y,maze_size)
 
 
-
+#completed
 
 
 

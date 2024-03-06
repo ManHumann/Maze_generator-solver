@@ -33,7 +33,7 @@ Data Structures:
 Maze Solving:
 
 Algorithm:
-1. The maze is solved using a breadth-first search algorithm.
+1. The maze is solved using a dijkstra algorithm.
 2. The algorithm starts from the top-left corner and explores possible paths until it reaches the bottom-right corner.
 3. It maintains a stack of nodes to explore, and at each step, it looks at the neighboring cells and adds unvisited, accessible cells to the stack.
 4. The process continues until the bottom-right corner is reached.
