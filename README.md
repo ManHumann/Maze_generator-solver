@@ -10,8 +10,6 @@ Day 3 & 4:
 Day5:
 The back tracking algorithm was done,as it included checking the previous node ,and follwoing the way back,the onlu thing remaining is to print the final path of the maze,this also includes checking it the algorith works properly or not.This concludes the 75% progress of the project .
 
-as the remaining 25% will include printing the path and debudding any error that may come along the way.
-
 
 The working of the entire program is as follows"
 Maze Generation:
@@ -33,7 +31,7 @@ Data Structures:
 Maze Solving:
 
 Algorithm:
-1. The maze is solved using a dijkstra algorithm.
+1. The maze is solved using a breadth-first search algorithm.
 2. The algorithm starts from the top-left corner and explores possible paths until it reaches the bottom-right corner.
 3. It maintains a stack of nodes to explore, and at each step, it looks at the neighboring cells and adds unvisited, accessible cells to the stack.
 4. The process continues until the bottom-right corner is reached.
